@@ -1,6 +1,7 @@
 package com.BillingCenter.dao;
 
 import com.BillingCenter.model.PhoneService;
+import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,12 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public class ServiceDAO {
-    @Autowired
-    SessionFactory sessionFactory;
-
     @Transactional
     public PhoneService getById(int id){
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         PhoneService action = session.get(PhoneService.class, id);
         session.close();
         return action;
@@ -23,7 +21,7 @@ public class ServiceDAO {
 
     @Transactional
     public void save(PhoneService service){
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = null;
         session.save(service);
         session.close();
@@ -31,24 +29,24 @@ public class ServiceDAO {
 
     @Transactional
     public void update(PhoneService service) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.update(service);
         session.close();
     }
 
     @Transactional
     public void delete(PhoneService service) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.delete(service);
         session.close();
     }
 
     @Transactional
     public List<PhoneService> findAll() {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")
         List<PhoneService> list = (List<PhoneService>)session
-                .createQuery("From Service").list();
+                .createQuery("From PhoneService").list();
         session.close();
         return list;
     }

@@ -2,6 +2,7 @@ package com.BillingCenter.dao;
 
 import com.BillingCenter.model.Customer;
 
+import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,12 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public class CustomerDAO {
-    @Autowired
-    SessionFactory sessionFactory;
 
     @Transactional
     public Customer getCustomerById(int id){
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Customer action = session.get(Customer.class, id);
         session.close();
         return action;
@@ -24,28 +23,28 @@ public class CustomerDAO {
 
     @Transactional
     public void save(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.save(customer);
         session.close();
     }
 
     @Transactional
     public void update(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.update(customer);
         session.close();
     }
 
     @Transactional
     public void delete(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.delete(customer);
         session.close();
     }
 
-    @Transactional
+    //@Transactional
     public List<Customer> findAll() {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")
         List<Customer> list = (List<Customer>)session
                 .createQuery("From Customer").list();

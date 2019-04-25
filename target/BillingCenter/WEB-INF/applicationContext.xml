@@ -6,6 +6,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
     <context:property-placeholder location="classpath:database.properties"/>
     <context:component-scan base-package="com.BillingCenter"/>
 
@@ -25,7 +26,16 @@
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
             </props>
         </property>
-       
+        <property name="annotatedClasses">
+            <list>
+                <value>com.BillingCenter.model.Customer</value>
+                <value>com.BillingCenter.model.Action</value>
+                <value>com.BillingCenter.model.CustomerInfo</value>
+                <value>com.BillingCenter.model.History</value>
+                <value>com.BillingCenter.model.PhoneNumber</value>
+                <value>com.BillingCenter.model.PhoneService</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="actionDAO" class="com.BillingCenter.dao.ActionDAO"/>
@@ -34,9 +44,9 @@
     <bean id="historyDAO" class="com.BillingCenter.dao.HistoryDAO"/>
     <bean id="phoneNumbersDAO" class="com.BillingCenter.dao.PhoneNumbersDAO"/>
     <bean id="serviceDAO" class="com.BillingCenter.dao.ServiceDAO"/>
-
     <bean id="service" class = "com.BillingCenter.services.Services"/>
 
-
-
+    <bean id = "transactionManager" class = "org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref = "sessionFactory"/>
+    </bean>
 </beans>

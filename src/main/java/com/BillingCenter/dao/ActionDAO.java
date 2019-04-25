@@ -1,22 +1,16 @@
 package com.BillingCenter.dao;
 
 import com.BillingCenter.model.Action;
+import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
 import java.util.List;
 
 public class ActionDAO {
-    @Autowired
-    SessionFactory sessionFactory;
 
     @Transactional
     public Action getById(int id){
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Action action = session.get(Action.class, id);
         session.close();
         return action;
@@ -24,27 +18,28 @@ public class ActionDAO {
 
     @Transactional
     public void save(Action action){
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.save(action);
+        session.close();
     }
 
     @Transactional
     public void update(Action action) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.update(action);
         session.close();
     }
 
     @Transactional
     public void delete(Action action) {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.delete(action);
         session.close();
     }
 
     @Transactional
     public List<Action> findAll() {
-        Session session = sessionFactory.openSession();
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
         @SuppressWarnings("unchecked")
         List<Action> list = (List<Action>)session

@@ -1,5 +1,6 @@
 package com.BillingCenter.controller;
 
+import com.BillingCenter.model.Customer;
 import com.BillingCenter.model.PhoneService;
 import com.BillingCenter.services.Services;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class MainController {
     private Services service;
 
     @RequestMapping(value ="/")
-    public String hello(ModelMap map){
+    public String ServicesList(ModelMap map){
         List<PhoneService> services = service.getAllServices();
         map.addAttribute("services", services);
         return "index";
