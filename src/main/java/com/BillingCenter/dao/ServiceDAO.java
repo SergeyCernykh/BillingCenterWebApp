@@ -1,49 +1,56 @@
 package com.BillingCenter.dao;
 
 import com.BillingCenter.model.PhoneService;
-import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ServiceDAO {
-    @Transactional
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
     public PhoneService getById(int id){
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        PhoneService action = session.get(PhoneService.class, id);
+        Session session = sessionFactory.openSession();
+        PhoneService phoneService = (PhoneService) session.get(PhoneService.class, id);
         session.close();
-        return action;
+        return phoneService;
     }
 
-    @Transactional
-    public void save(PhoneService service){
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        Transaction tx1 = null;
-        session.save(service);
+    public int save(PhoneService service) {
+        Session session = sessionFactory.openSession();
+        Serializable id;
+        id = session.save(service);
         session.close();
+        return (Integer) id;
     }
 
-    @Transactional
+    //@Transactional
     public void update(PhoneService service) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
+        Transaction tx1 = session.beginTransaction();
         session.update(service);
+        tx1.commit();
         session.close();
     }
 
-    @Transactional
-    public void delete(PhoneService service) {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        session.delete(service);
+    public void delete(int id) {
+        Session session = sessionFactory.openSession();
+        PhoneService phoneService = (PhoneService) session
+                .get(PhoneService.class, id);
+        Transaction tx1 = session.beginTransaction();
+        session.delete(phoneService);
+        tx1.commit();
         session.close();
+        return;
     }
 
-    @Transactional
     public List<PhoneService> findAll() {
-        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         @SuppressWarnings("unchecked")
         List<PhoneService> list = (List<PhoneService>)session
                 .createQuery("From PhoneService").list();

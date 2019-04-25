@@ -9,36 +9,31 @@ import java.util.List;
 
 public class PhoneNumbersDAO {
 
-    @Transactional
     public PhoneNumber getById(int id){
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        PhoneNumber action = session.get(PhoneNumber.class, id);
+        PhoneNumber action = (PhoneNumber) session.get(PhoneNumber.class, id);
         session.close();
         return action;
     }
 
-    @Transactional
     public void save(PhoneNumber phoneNumber){
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.save(phoneNumber);
         session.close();
     }
 
-    @Transactional
     public void update(PhoneNumber phoneNumber) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.update(phoneNumber);
         session.close();
     }
 
-    @Transactional
     public void delete(PhoneNumber phoneNumber) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.delete(phoneNumber);
         session.close();
     }
 
-    @Transactional
     public List<PhoneNumber> findAll() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")

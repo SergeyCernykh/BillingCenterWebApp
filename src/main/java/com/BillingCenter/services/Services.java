@@ -32,19 +32,19 @@ public class Services {
 
     //клиент
     public Customer getCustomerById(int id) {
-        return new CustomerDAO().getCustomerById(id);
+        return customersDAO.getCustomerById(id);
     }
 
     public List<Customer> getAllCustomers(){
-        return new CustomerDAO().findAll();
+        return customersDAO.findAll();
     }
 
     public void saveCustomer(Customer Customer){
-        new CustomerDAO().save(Customer);
+        customersDAO.save(Customer);
     }
 
     public void updateCustomer(Customer Customer){
-        new CustomerDAO().update(Customer);
+        customersDAO.update(Customer);
     }
 
     public void updateBill(Customer customer, float payment){
@@ -67,7 +67,7 @@ public class Services {
             customer.setActionsById(new ArrayList<Action>());
         customer.getActionsById().add(action);
         new ActionDAO().save(action);
-        new CustomerDAO().update(customer);
+        customersDAO.update(customer);
     }
 
     public void updateCustomerService(Customer customer, PhoneService service){
@@ -96,7 +96,7 @@ public class Services {
             if (service.getHistoriesById() == null)
                 service.setHistoriesById(new ArrayList<History>());
             service.getHistoriesById().add(newNote);
-            new HistoryDAO().save(newNote);
+            historyDAO.save(newNote);
         }
     }
 
@@ -158,20 +158,20 @@ public class Services {
     }
 
     public void addNewContact(CustomerInfo contact){
-        new CustomerInfoDAO().save(contact);
+        customersInfoDAO.save(contact);
     }
 
     public void updateContact(CustomerInfo contact){
-        new CustomerInfoDAO().update(contact);
+        customersInfoDAO.update(contact);
     }
 
     public void deleteContact(CustomerInfo contact){
-        new CustomerInfoDAO().delete(contact);
+        customersInfoDAO.delete(contact);
     }
 
     //телефонные номера
     public List<PhoneNumber> getAllPhoneNumbers(){
-        return new PhoneNumbersDAO().findAll();
+        return phoneNumbersDAO.findAll();
     }
 
     public PhoneNumber getFirstFreePhoneNumber(){
@@ -204,22 +204,22 @@ public class Services {
 
     //услуга
     public PhoneService getServiceById(int id){
-        return new ServiceDAO().getById(id);
+        return serviceDAO.getById(id);
     }
 
     public List<PhoneService> getAllServices(){
-        return new ServiceDAO().findAll();
+        return serviceDAO.findAll();
     }
 
     public void saveService(PhoneService service){
-        new ServiceDAO().save(service);
+        serviceDAO.save(service);
     }
 
     public void updateService(PhoneService service){
-        new ServiceDAO().update(service);
+        serviceDAO.update(service);
     }
 
-    public void deleteService(PhoneService service) {
-        new ServiceDAO().delete(service);
+    public void deleteService(int id) {
+        serviceDAO.delete(id);
     }
 }

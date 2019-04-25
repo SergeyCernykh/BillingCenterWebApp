@@ -12,36 +12,31 @@ import java.util.List;
 
 public class CustomerInfoDAO {
 
-    @Transactional
     public CustomerInfo getById(int id){
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        CustomerInfo action = session.get(CustomerInfo.class, id);
+        CustomerInfo action = (CustomerInfo) session.get(CustomerInfo.class, id);
         session.close();
         return action;
     }
 
-    @Transactional
     public void save(CustomerInfo custInfo) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.save(custInfo);
         session.close();
     }
 
-    @Transactional
     public void update(CustomerInfo custInfo) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.update(custInfo);
         session.close();
     }
 
-    @Transactional
     public void delete(CustomerInfo custInfo) {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         session.delete(custInfo);
         session.close();
     }
 
-    @Transactional
     public List<CustomerInfo> findAll() {
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")
