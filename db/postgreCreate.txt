@@ -1,0 +1,72 @@
+CREATE TABLE IF NOT EXISTS SERVICES (
+	ID SERIAL PRIMARY KEY ,
+    "Name" character varying(50) not null,
+	Minutes INT,
+    Internet INT,
+    SMS INT,
+	Cost REAL,
+    SpecialOffer REAL
+);
+
+CREATE TABLE IF NOT EXISTS CUSTOMERS (
+	ID SERIAL PRIMARY KEY ,
+    ServiceID INT,
+	"Name" character varying(45),
+    Bill REAL,
+    MaxDebt REAL,
+    MaxDayToRepayment DATE,
+    CompanyFlag boolean,
+    BlockedFlag boolean,
+	FOREIGN KEY (ServiceID)
+		REFERENCES SERVICES(ID)
+		ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS "HISTORY" (
+	RowID SERIAL PRIMARY KEY ,
+    CustomerID INT NOT NULL,
+	ServiceID INT,
+    "From" DATE NOT NULL,
+    "To" DATE,
+    FOREIGN KEY (ServiceID)
+		REFERENCES SERVICES(ID)
+		ON DELETE SET NULL,
+	FOREIGN KEY (CustomerID)
+		REFERENCES CUSTOMERS(ID)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS CUSTOMERS_INFO (
+	RowID SERIAL PRIMARY KEY ,
+    CustomerID INT NOT NULL,
+    FullName character varying(45),
+    PhoneNumber character varying(16),
+    Adress character varying(100),
+    Email character varying(45),
+    FOREIGN KEY (CustomerID)
+		REFERENCES CUSTOMERS(ID)
+		ON DELETE CASCADE
+
+);
+
+CREATE TABLE IF NOT EXISTS ACTIONS (
+	RowID SERIAL PRIMARY KEY ,
+    CustomerID INT NOT NULL,
+    "Action" REAL NOT NULL,
+    "Date" timestamp NOT NULL,
+    FOREIGN KEY (CustomerID)
+		REFERENCES CUSTOMERS(ID)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS PHONE_NUMBERS (
+	RowID SERIAL PRIMARY KEY ,
+    CustomerID INT,
+    CountryCode INT NOT NULL,
+    RegionCode INT NOT NULL,
+    "Number" INT NOT NULL UNIQUE,
+    FullNumber character varying(16),
+    FOREIGN KEY (CustomerID)
+		REFERENCES CUSTOMERS(ID)
+		ON DELETE SET NULL
+);
