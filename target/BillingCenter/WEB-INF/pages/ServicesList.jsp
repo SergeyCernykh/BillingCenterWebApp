@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<button>Клиенты</button>|<button>Услуги</button><br>
+<span><a href="customers">Клиенты</a></span> | <span><a href="services">Услуги</a></span><br>
 <h2>Таблица услуг</h2><br>
 <table border="1px">
     <tr>

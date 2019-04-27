@@ -39,12 +39,26 @@ public class Services {
         return customersDAO.findAll();
     }
 
-    public void saveCustomer(Customer Customer){
-        customersDAO.save(Customer);
+    public void saveCustomer(Customer customer){
+        customersDAO.save(customer);
+        Integer servId = customer.getServiceid();
+        if ( servId != null){
+            PhoneService service = customer.getServicesByServiceid();
+            if (service == null || service.getId() != servId){
+                updateCustomerService(customer, getServiceById(servId));
+            }
+        }
     }
 
-    public void updateCustomer(Customer Customer){
-        customersDAO.update(Customer);
+    public void updateCustomer(Customer customer){
+        customersDAO.update(customer);
+        Integer servId = customer.getServiceid();
+        if ( servId != null){
+            PhoneService service = customer.getServicesByServiceid();
+            if (service == null || service.getId() != servId){
+                updateCustomerService(customer, getServiceById(servId));
+            }
+        }
     }
 
     public void updateBill(Customer customer, float payment){
@@ -84,7 +98,7 @@ public class Services {
 
         if (service != null) {
             customer.setServicesByServiceid(service);
-            new CustomerDAO().update(customer);
+            customersDAO.update(customer);
 
             History newNote = new History();
             newNote.setCustomersByCustomerid(customer);
@@ -120,8 +134,8 @@ public class Services {
         }
     }
 
-    public void deleteCustomer(Customer customer){
-        customersDAO.delete(customer);
+    public void deleteCustomer(int id){
+        customersDAO.delete(id);
     }
 
     //котакные лица

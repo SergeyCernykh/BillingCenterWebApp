@@ -23,8 +23,9 @@ public class ServiceDAO {
 
     public int save(PhoneService service) {
         Session session = sessionFactory.openSession();
-        Serializable id;
-        id = session.save(service);
+        Transaction tx1 = session.beginTransaction();
+        Serializable id = session.save(service);
+        tx1.commit();
         session.close();
         return (Integer) id;
     }
