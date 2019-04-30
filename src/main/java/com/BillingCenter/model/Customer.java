@@ -170,7 +170,7 @@ public class Customer {
         this.customersInfosById = customersInfosById;
     }
 
-    @OneToMany(mappedBy = "customersByCustomerid")
+    @OneToMany(mappedBy = "customersByCustomerid", fetch = FetchType.LAZY)
     public List<PhoneNumber> getPhoneNumbersById() {
         return phoneNumbersById;
     }

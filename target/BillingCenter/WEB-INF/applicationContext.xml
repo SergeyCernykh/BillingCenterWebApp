@@ -44,8 +44,6 @@
     </bean>
 
 
-
-
     <bean id="actionDAO" class="com.BillingCenter.dao.ActionDAO"/>
     <bean id="customerDAO" class="com.BillingCenter.dao.CustomerDAO"/>
     <bean id="customerInfoDAO" class="com.BillingCenter.dao.CustomerInfoDAO"/>

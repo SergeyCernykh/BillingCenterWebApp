@@ -8,7 +8,6 @@
 <h2>Таблица услуг</h2><br>
 <table border="1px">
     <tr>
-        <th>id</th>
         <th>Наименование</th>
         <th>GB</th>
         <th>Минуты</th>
@@ -20,7 +19,6 @@
     </tr>
     <c:forEach items="${services}" var = "serv">
         <tr>
-            <td><c:out value="${serv.id}"/></td>
             <td><c:out value="${serv.name}"/></td>
             <td><c:out value="${serv.internet}"/></td>
             <td><c:out value="${serv.minutes}"/></td>

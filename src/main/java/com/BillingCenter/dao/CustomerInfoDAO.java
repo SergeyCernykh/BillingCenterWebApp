@@ -1,6 +1,7 @@
 package com.BillingCenter.dao;
 
 import com.BillingCenter.model.CustomerInfo;
+import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,6 +15,7 @@ public class CustomerInfoDAO {
 
     public CustomerInfo getById(int id){
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         CustomerInfo action = (CustomerInfo) session.get(CustomerInfo.class, id);
         session.close();
         return action;
@@ -21,6 +23,7 @@ public class CustomerInfoDAO {
 
     public void save(CustomerInfo custInfo) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(custInfo);
         tx1.commit();
@@ -29,15 +32,18 @@ public class CustomerInfoDAO {
 
     public void update(CustomerInfo custInfo) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.update(custInfo);
         tx1.commit();
         session.close();
     }
 
-    public void delete(CustomerInfo custInfo) {
+    public void delete(int id) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
+        CustomerInfo custInfo = session.get(CustomerInfo.class, id);
         session.delete(custInfo);
         tx1.commit();
         session.close();
@@ -45,6 +51,7 @@ public class CustomerInfoDAO {
 
     public List<CustomerInfo> findAll() {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")
         List<CustomerInfo> list = (List<CustomerInfo>)session
                 .createQuery("From CustomerInfo").list();

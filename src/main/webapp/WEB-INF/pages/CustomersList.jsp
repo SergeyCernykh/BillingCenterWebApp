@@ -8,7 +8,6 @@
 <h2>Таблица клиентов</h2><br>
 <table border="1px" >
     <tr>
-        <th>id</th>
         <th>Имя</th>
         <th>Услуга</th>
         <th>Комания</th>
@@ -21,7 +20,6 @@
     </tr>
     <c:forEach items="${customers}" var = "cust">
         <tr>
-            <td><c:out value="${cust.id}"/></td>
             <td><c:out value="${cust.name}"/></td>
             <td><c:out value="${cust.servicesByServiceid.name}"/></td>
             <td><c:out value="${cust.companyflag}"/></td>

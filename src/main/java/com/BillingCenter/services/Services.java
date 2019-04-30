@@ -61,39 +61,44 @@ public class Services {
         }
     }
 
-    public void updateBill(Customer customer, float payment){
+    public void updateBill(Customer customer, Action action){
         Float bill = customer.getBill();
         if (bill == null) {
-            bill = payment;
+            bill = action.getAction();
         } else {
-            bill += payment;
+            bill += action.getAction();
         }
         customer.setBill(bill);
 
         checkCustomerBill(customer);
 
-        Action action = new Action();
-        action.setCustomersByCustomerid(customer);
-        action.setAction(payment);
         action.setDate(new Timestamp(System.currentTimeMillis()));
 
         if (customer.getActionsById() == null)
-            customer.setActionsById(new ArrayList<Action>());
+           customer.setActionsById(new ArrayList<Action>());
         customer.getActionsById().add(action);
-        new ActionDAO().save(action);
+        actionDAO.save(action);
         customersDAO.update(customer);
     }
 
     public void updateCustomerService(Customer customer, PhoneService service){
+
         History lastNote = null;
         Date today = new Date();
-        List<History> history = customer.getHistoriesById();
+        List<History> forDeleteHistory = new ArrayList<History>();
+        List<History> history = historyDAO.findAll();
+        for (History hist : history) {
+            if (hist.getCustomerid() != customer.getId()) {
+                forDeleteHistory.add(hist);
+            }
+        }
+        history.removeAll(forDeleteHistory);
         if (history != null && !history.isEmpty()) {
             lastNote = history.get(history.size()-1);
         }
         if (lastNote != null){
             lastNote.setTo(convertUtilToSql(today));
-            new HistoryDAO().update(lastNote);
+            historyDAO.update(lastNote);
         }
 
         if (service != null) {
@@ -123,7 +128,7 @@ public class Services {
         for (int i = 0; i < n; ++i){
             PhoneNumber phoneNumber = getFirstFreePhoneNumber();
             phoneNumber.setCustomersByCustomerid(customer);
-            phoneNumbersDAO.save(phoneNumber);
+            phoneNumbersDAO.saveOrUpdate(phoneNumber);
             List<PhoneNumber> phoneNumbersENTITIES = customer.getPhoneNumbersById();
             if (phoneNumbersENTITIES == null){
                 phoneNumbersENTITIES = new ArrayList<PhoneNumber>();
@@ -132,6 +137,13 @@ public class Services {
             phoneNumbersENTITIES.add(phoneNumber);
             customersDAO.update(customer);
         }
+    }
+
+    public int freePhoneNumber(int rowid){
+        PhoneNumber number = phoneNumbersDAO.getById(rowid);
+        Integer id = number.getCustomerid();
+        phoneNumbersDAO.delete(rowid);
+        return id;
     }
 
     public void deleteCustomer(int id){
@@ -172,6 +184,8 @@ public class Services {
     }
 
     public void addNewContact(CustomerInfo contact){
+        if (contact.getCustomersByCustomerid()==null)
+            contact.setCustomersByCustomerid(getCustomerById(contact.getCustomerid()));
         customersInfoDAO.save(contact);
     }
 
@@ -179,10 +193,13 @@ public class Services {
         customersInfoDAO.update(contact);
     }
 
-    public void deleteContact(CustomerInfo contact){
-        customersInfoDAO.delete(contact);
+    public void deleteContact(int id){
+        customersInfoDAO.delete(id);
     }
 
+    public CustomerInfo getCustomerInfoById(int id){
+        return customersInfoDAO.getById(id);
+    }
     //телефонные номера
     public List<PhoneNumber> getAllPhoneNumbers(){
         return phoneNumbersDAO.findAll();
@@ -192,18 +209,32 @@ public class Services {
         List<PhoneNumber> numbers = getAllPhoneNumbers();
         PhoneNumber lastNumber = null;
 
-        if (numbers != null && numbers.size() != 0){
-            lastNumber = numbers.get(numbers.size()-1);
+        if (numbers != null && numbers.size() != 0) {
+            for (int i = 0; i < numbers.size(); ++i){
+                PhoneNumber num = numbers.get(i);
+                if (num.getCustomerid() == null) {
+                    lastNumber = num;
+                    break;
+                }
+            }
         }
 
         int countryCode = 7;
         int regionCode = 999;
         int number;
 
-        if (lastNumber == null){
+        if (lastNumber != null) {
+            if (lastNumber.getFullnumber() == null)
+                lastNumber.setFullnumber("+" + countryCode
+                        + "("+ regionCode + ") " +lastNumber.getNumber());
+            return lastNumber;
+        }
+
+        if (numbers == null || numbers.size() == 0){
             number = 10000;
         }else{
-            number = lastNumber.getNumber() + 1;
+            lastNumber = numbers.get(numbers.size()-1);
+            number = lastNumber.getNumber()+1;
         }
         String fullNumber = "+" + countryCode + "("+ regionCode + ") " +number;
 

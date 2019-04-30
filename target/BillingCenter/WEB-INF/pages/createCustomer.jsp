@@ -9,10 +9,11 @@
 </head>
 <body>
 <span><a href="customers">Клиенты</a></span> | <span><a href="services">Услуги</a></span><br>
-<form:form id="formCreate" modelAttribute="customer" method="post" action="saveCustmerAction">
+<form:form id="formCreate" modelAttribute="customer" method="post" action="saveCustomerAction">
     <table>
         <tr><td>Имя </td><td><form:input path="name"/></td></tr>
         <tr><td>Услуга</td><td> <select id = "serviceid"  name="serviceid">
+            <option value="${null}"> ----- </option>
             <c:forEach items="${services}" var="serv">
              <option value="${serv.id}"> ${serv.name}</option>
             </c:forEach>

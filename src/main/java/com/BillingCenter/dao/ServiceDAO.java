@@ -1,6 +1,7 @@
 package com.BillingCenter.dao;
 
 import com.BillingCenter.model.PhoneService;
+import com.BillingCenter.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,6 +17,7 @@ public class ServiceDAO {
 
     public PhoneService getById(int id){
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         PhoneService phoneService = (PhoneService) session.get(PhoneService.class, id);
         session.close();
         return phoneService;
@@ -23,6 +25,7 @@ public class ServiceDAO {
 
     public int save(PhoneService service) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         Serializable id = session.save(service);
         tx1.commit();
@@ -33,6 +36,7 @@ public class ServiceDAO {
     //@Transactional
     public void update(PhoneService service) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.update(service);
         tx1.commit();
@@ -41,6 +45,7 @@ public class ServiceDAO {
 
     public void delete(int id) {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         PhoneService phoneService = (PhoneService) session
                 .get(PhoneService.class, id);
         Transaction tx1 = session.beginTransaction();
@@ -52,6 +57,7 @@ public class ServiceDAO {
 
     public List<PhoneService> findAll() {
         Session session = sessionFactory.openSession();
+        //Session session = HibernateSessionFactory.getSessionFactory().openSession();
         @SuppressWarnings("unchecked")
         List<PhoneService> list = (List<PhoneService>)session
                 .createQuery("From PhoneService").list();
