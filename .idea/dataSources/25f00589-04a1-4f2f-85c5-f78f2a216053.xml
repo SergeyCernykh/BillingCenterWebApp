@@ -18,10 +18,10 @@
       <Visible>1</Visible>
       <Relations>sequence|table|42094|42096|1
 sequence|table|42102|42104|1
-sequence|table|42146|42148|1
-sequence|table|42159|42161|1
-sequence|table|42133|42135|1
 sequence|table|42115|42117|1
+sequence|table|42159|42161|1
+sequence|table|42146|42148|1
+sequence|table|42133|42135|1
 </Relations>
     </database>
     <database id="4" parent="1" name="Filler_K321849">

@@ -3,10 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
+<title>Услуги</title>
 <body>
 <span><a href="customers">Клиенты</a></span> | <span><a href="services">Услуги</a></span><br>
 <h2>Таблица услуг</h2><br>
-<table border="1px">
+<table id="table" border="1px">
     <tr>
         <th>Наименование</th>
         <th>GB</th>
@@ -32,7 +33,7 @@
 </table>
 <br>
 <form:form id="createServiceForm" method="post" action="createServiceForm">
-    <button>Создать новую услугу</button>
+    <button id="createService" >Создать новую услугу</button>
 </form:form>
 </body>
 </html>

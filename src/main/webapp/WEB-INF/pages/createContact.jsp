@@ -10,12 +10,12 @@
 <span><a href="customers">Клиенты</a></span> | <span><a href="services">Услуги</a></span><br>
 <form:form id="formCreate" modelAttribute="contact" method="post" action="saveContactAction">
 <table>
-    <form:hidden path="customerid"/>
-    <tr><td>ФИО</td><td><form:input path="fullname"/></td></tr>
-    <tr><td>Номер телефона</td><td><form:input path="phonenumber"/></td></tr>
-    <tr><td>Адрес</td><td> <form:input path="adress"/></td></tr>
-    <tr><td>E-mail</td><td> <form:input path="email"/></td></tr>
-    <tr><td><button>Сохранить</button> </form:form></td>
+    <form:hidden path="customerid" />
+    <tr><td>ФИО</td><td><form:input path="fullname" id="fullname"/></td></tr>
+    <tr><td>Номер телефона</td><td><form:input path="phonenumber" id="phonenumber"/></td></tr>
+    <tr><td>Адрес</td><td> <form:input path="adress" id="adress"/></td></tr>
+    <tr><td>E-mail</td><td> <form:input path="email" id="email"/></td></tr>
+    <tr><td><button id="save">Сохранить</button> </form:form></td>
         <td><span><a href="cancelContactAction?id=${contact.customerid}">Отмена</a></span></td></tr>
 </body>
 </html>

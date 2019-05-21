@@ -6,13 +6,12 @@
     <title>Клиент</title>
     <meta http-equiv="content-type" content="text/html" charset="utf-8">
 </head>
-<tr>
 <span><a href="customers">Клиенты</a></span> | <span><a href="services">Услуги</a></span><br>
 <form:form id="formUpdate" modelAttribute="customer" method="post" action="updateCustomerAction">
 <table>
     <tr><td><table>
         <form:hidden path="id"/>
-        <tr><td>Имя </td><td><form:input path="name"/></td></tr>
+        <tr><td>Имя </td><td><form:input id="name" path="name"/></td></tr>
         <tr><td>Услуга</td><td>
             <select id = "serviceid"  name="serviceid" >
             <option value="${null}"> ----- </option>
@@ -25,13 +24,13 @@
         </td></tr>
         <tr><td> Максимальный кредит</td><td><form:input path="maxdebt"/></td></tr>
         <tr><td>Компания </td><td><form:checkbox path="companyflag"/></td></tr>
-        <tr><td><button type="submit">Сохранить</button></form:form></td>
+        <tr><td><button type="submit" id="save">Сохранить</button></form:form></td>
             <td><form:form id="cancelUpdate" modelAttribute="customer" method="post" action="customers">
                 <button>Отмена</button>
             </form:form></td></tr>
     </table></td></tr>
 
-    <tr><td><table>
+    <tr><td><table id="numbers">
         <c:forEach items="${customer.phoneNumbersById}" var = "phoneNumber">
             <tr>
                 <td><c:out value="${phoneNumber.fullnumber}"/></td>
@@ -66,9 +65,9 @@
     </table></td></tr>
 <tr><form:form modelAttribute="billAction" action="regAction">
     <table><tr><td><c:out value="${customer.bill}"/></td></tr>
-        <tr><td><form:input path="action"/></td></tr>
-        <form:hidden path="customerid"/>
-        <tr><td><button>Зарегистрировать</button></td></tr></table></form:form></tr>
+        <tr><td><form:input path="action" id="act"/></td></tr>
+        <form:hidden path="customerid" />
+        <tr><td><button id="reg">Зарегистрировать</button></td></tr></table></form:form></tr>
 <tr>
     История поступлений и списаний
     <table border="1px">
